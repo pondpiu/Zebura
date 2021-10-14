@@ -59,7 +59,7 @@
           where("voteId", "==", rd.voteId),
           orderBy("value")
         );
-        return collectionData(scoreCardRef);
+        return collectionData(scoreCardRef, { idField: "uid" });
       })
     )
     .subscribe((s) => {

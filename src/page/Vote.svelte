@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fade, fly } from "svelte/transition";
+
   import { doc, setDoc } from "firebase/firestore";
 
   import ScoreButton from "../lib/ScoreButton.svelte";
@@ -24,11 +26,11 @@
   }
 </script>
 
-<div>
+<div in:fade>
   <h2>
-    Hi {userData.name}
+    Make your vote {userData.name}
   </h2>
-  <div>
+  <div in:fly={{ y: 200, duration: 2000 }}>
     {#each points as point}
       <ScoreButton {point} on:click={vote} />
     {/each}

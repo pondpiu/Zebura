@@ -1,26 +1,23 @@
 <script lang="ts">
+  import { flip } from "svelte/animate";
+
   export let scores: any[];
   $: observerScores = scores.filter((s) => s.value === "observer");
   $: idleScores = scores.filter((s) => !s.value);
   $: activeScores = scores
     .filter((s) => s.value > 0)
     .sort((a, b) => (a.username > b.username && 1) || -1);
+  $: sortedScores = [...idleScores, ...activeScores, ...observerScores];
 </script>
 
 <h2>Participant</h2>
-{#each idleScores as score}
-  <div>
-    {score.username} : 💤
-  </div>
-{/each}
-{#each activeScores as score}
-  <div>
-    {score.username} : ✅
-  </div>
-{/each}
-{#each observerScores as score}
-  <div>
-    {score.username} : 👀
+{#each sortedScores as score (score.uid)}
+  <div animate:flip>
+    {score.username} : {score.value === "observer"
+      ? "👀"
+      : score.value > 0
+      ? "✅"
+      : "💤"}
   </div>
 {/each}
 
